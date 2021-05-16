@@ -27,7 +27,7 @@ SECRET_KEY = '*eb1f*qz2h2ma3fi4rel@w2=hs66_yb7us6g**(c_86ie0k9#4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['nurturedeploy.herokuapp.com']
+ALLOWED_HOSTS = ['nurturedeploy.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
