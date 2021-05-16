@@ -82,8 +82,11 @@ WSGI_APPLICATION = 'pyproj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'nurtureApp',
-        'HOST': 'mongodb+srv://nurtureApp:JituJain49@nurture.rzjkl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+        'NAME': 'nurturelabs',
+        'USER': 'nurtureApp',
+        'PASSWORD': 'JituJain49',
+        'HOST': 'nurture.rzjkl.mongodb.net',
+        'PORT': '31117',
     }
 }
 
