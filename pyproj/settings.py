@@ -81,7 +81,8 @@ WSGI_APPLICATION = 'pyproj.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django_mongodb_engine',
+        'ENGINE': 'djongo',
+        'NAME': 'nurtureApp',
         'HOST': 'mongodb+srv://nurtureApp:JituJain49@nurture.rzjkl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
     }
 }
