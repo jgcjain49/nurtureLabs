@@ -117,6 +117,11 @@ def ListBooking(request, user_id):
     return JsonResponse({"success": True, "data": list(filterData.values())}, status=status.HTTP_200_OK, safe=False)
 
 
+@api_view(['GET'])
+def Home(request):
+    return JsonResponse({"success": True, "data": "Home Page"})
+
+
 def getUser(email):
     user = User.objects.filter(email=email)
     if user.exists():

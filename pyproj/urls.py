@@ -18,6 +18,7 @@ from django.contrib import admin
 from nurtureApp import views
 
 urlpatterns = [
+    url('/', views.Home),
     url(r'^admin/advisor', views.CreateAdvisor),
     url(r'^user/register', views.CreateUser),
     url(r'^user/login', views.LoginUser),
