@@ -37,6 +37,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True,
                  primary_key=True, serialize=False, verbose_name='ID')),
                 ('advisor_id', models.CharField(default='', max_length=200)),
+                ('advisor_name', models.CharField(default='', max_length=200)),
+                ('advisor_pic', models.CharField(default='', max_length=200)),
                 ('time', models.DateTimeField()),
                 ('user_id', models.CharField()),
             ],

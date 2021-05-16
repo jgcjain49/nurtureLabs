@@ -18,4 +18,6 @@ class User(models.Model):
 class Booking(models.Model):
     user_id = models.CharField(max_length=20)
     advisor_id = models.CharField(max_length=20)
+    advisor_name = models.CharField(max_length=20)
+    advisor_pic = models.TextField()
     time = models.DateTimeField()

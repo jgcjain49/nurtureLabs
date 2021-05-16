@@ -8,25 +8,16 @@ from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 from django.core import serializers
-from nurtureApp.models import User
+from nurtureApp.models import User, Advisor, Booking
 from nurtureApp.serializers import AdvisorSerializer, UserSerializer, BookingSerializer
 from werkzeug.security import generate_password_hash, gen_salt, _hash_internal
 from django.utils.decorators import decorator_from_middleware
+from nurtureApp.middleware.AuthenticationNSS import AuthenticationMiddleware
 import json
 import jwt
 # Create your views here.
 
 jwtSecret = "KWNMRDPOUC"
-
-
-def verifyToken(request):
-    try:
-        token = request.headers['Authorization']
-        jwt.decode(token, jwtSecret, algorithms=["HS256"])
-    except jwt.ExpiredSignatureError:
-        return JsonResponse({"success": False, "reason":  "Expired Token"}, status=status.HTTP_401_UNAUTHORIZED)
-    except jwt.InvalidSignatureError:
-        return JsonResponse({"success": False, "reason": "Invalid Token"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['POST'])
@@ -61,8 +52,8 @@ def CreateUser(request):
     user_serializer = UserSerializer(data=user_data)
     if user_serializer.is_valid():
         user_serializer.save()
-        token = jwt.encode(
-            {"name": user_serializer.data["name"], "email": user_serializer.data["email"]}, jwtSecret, algorithm="HS256")
+        token = generateToken(payload={
+                              "name": user_serializer.data["name"], "email": user_serializer.data["email"]})
 
         return JsonResponse({"token": token, "user_id": user_serializer.data['id']}, status=status.HTTP_200_OK, safe=False)
     return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -93,24 +84,37 @@ def LoginUser(request):
     return JsonResponse({"token": token, "user_id": user_serializer.data['id']}, status=status.HTTP_200_OK)
 
 
-# @decorator_from_middleware(verifyToken)
-@api_view(['POST'])
+@api_view(['GET'])
 def ListAdvisor(request, user_id):
-    return JsonResponse(True, status=status.HTTP_200_OK)
+    advisor_data = Advisor.objects.all()
+    return JsonResponse({"success": True, "data": list(advisor_data.values())}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
-def BookCall(req, user_id, advisor_id):
-    random = [{
-        'advisor_name': 'Antul',
-        'pic': 'http://rna.some.com/2734',
-        'advisor_id': '5esadjkfwe3',
-        'booking_time': '15:33:00',
-        'booking_id': '5rovwhbjk243',
+def BookCall(request, user_id, advisor_id):
+    advisor_data = Advisor.objects.get(id=advisor_id)
+
+    booking_data = {
+        'advisor_name': advisor_data.name,
+        'advisor_pic': advisor_data.pic,
+        'time': request.data['time'],
         'user_id': user_id,
         'advisor_id': advisor_id
-    }]
-    return JsonResponse(random, safe=False)
+    }
+
+    booking = BookingSerializer(data=booking_data)
+    if booking.is_valid():
+        booking.save()
+        return JsonResponse(booking.data, status=status.HTTP_200_OK)
+    return JsonResponse(booking.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def ListBooking(request, user_id):
+    booking_data = Booking.objects.all()
+    filterData = Booking.objects.filter(user_id=user_id)
+    print(filterData)
+    return JsonResponse({"success": True, "data": list(filterData.values())}, status=status.HTTP_200_OK, safe=False)
 
 
 def getUser(email):

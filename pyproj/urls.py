@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^admin/advisor', views.CreateAdvisor),
     url(r'^user/register', views.CreateUser),
     url(r'^user/login', views.LoginUser),
+    url(r'^user/(?P<user_id>\d+)/advisor/(?P<advisor_id>\d+)', views.BookCall),
+    url(r'^user/(?P<user_id>\d+)/advisor/booking', views.ListBooking),
     url(r'^user/(?P<user_id>\d+)/advisor', views.ListAdvisor),
-    url(r'^user/(?P<user_id>\d+)/advisor/(?P<advisor_id>\d+)', views.CreateAdvisor),
-    url(r'^user/(?P<user_id>\d+)/advisor/booking', views.CreateAdvisor),
 ]
