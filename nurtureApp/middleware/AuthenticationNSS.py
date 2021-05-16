@@ -13,7 +13,7 @@ class AuthenticationMiddleware(MiddlewareMixin):
 
     def __call__(self, request):
         url = request.get_full_path()
-        if url not in ['/user/login', '/user/register', '/admin/advisor']:
+        if url not in ['/user/login', '/user/register', '/admin/advisor', '/']:
             if 'Authorization' in request.headers.keys():
                 try:
                     token = request.headers['Authorization']
