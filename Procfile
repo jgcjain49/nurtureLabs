@@ -1,1 +1,1 @@
-web: gunicorn nurtureLabs.wsgi
+web: gunicorn nurtureApp.wsgi
