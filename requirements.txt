@@ -18,3 +18,7 @@ sqlparse==0.2.4
 toml==0.10.2
 urllib3==1.26.4
 Werkzeug==1.0.1
+dj-database-url==0.4.2
+gunicorn==19.7.1
+psycopg2==2.7.3.2
+whitenoise==3.3.1
